@@ -2,4 +2,9 @@
 
 - [x] Add WebSockets
 - [x] Add Daisy UI
-- [ ] Add bidirectional support via htmx
+- [x] Add bidirectional support via htmx
+- [ ] Scatter user dots
+- [ ] Provide some Fibonacci options
+- [ ] Locally enable ability to start voting (first user to join is Admin)
+- [ ] Preserve values on refresh
+- [ ] Reveal when time runs out

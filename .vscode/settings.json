@@ -2,5 +2,8 @@
     "tailwindCSS.includeLanguages": {
         "templ": "html"
     },
-    "cSpell.words": ["testdata", "tmpl"]
+    "cSpell.words": ["proxyport", "testdata", "tmpl"],
+    "[templ]": {
+        "editor.defaultFormatter": "a-h.templ"
+    }
 }

@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/ottigan/planning-poker/templates/components"
 
-func Index() templ.Component {
+func Index(isActive bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -31,11 +31,19 @@ func Index() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Golang HTMX</title><script src=\"https://unpkg.com/htmx.org@1.9.12\"></script><script src=\"https://unpkg.com/htmx.org@1.9.12/dist/ext/ws.js\"></script><link href=\"/static/css/output.css\" rel=\"stylesheet\"></head><body hx-ext=\"ws\" ws-connect=\"/ws/poker\"><div id=\"server-time\" class=\"w-full text-xl mt-10 flex justify-center\"><span>Time: </span>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Golang HTMX</title><script src=\"/static/js/htmx.js\"></script><script src=\"/static/js/ws.js\"></script><link href=\"/static/css/output.css\" rel=\"stylesheet\"></head><body hx-ext=\"ws\" class=\"h-screen w-screen flex justify-center items-center\" ws-connect=\"/ws/poker\"><div class=\"flex flex-col justify-center items-center\"><div id=\"server-time\" class=\"w-full text-5xl mt-10 flex justify-center mb-20\"><span class=\"pr-4\">Time:</span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = components.Time("...").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.Seat(isActive).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
