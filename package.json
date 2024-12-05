@@ -1,7 +1,8 @@
 {
-  "dependencies": {},
-  "devDependencies": {
-    "daisyui": "latest",
-    "postcss": "^8.4.49"
-  }
+    "license": "MIT",
+    "dependencies": {},
+    "devDependencies": {
+        "daisyui": "latest",
+        "postcss": "^8.4.49"
+    }
 }

@@ -40,12 +40,6 @@ func main() {
 			log.Printf("Current connections: %d\n", connectionCount)
 		}()
 
-		// c.Locals is added to the *websocket.Conn
-		log.Println(c.Locals("allowed"))  // true
-		log.Println(c.Params("id"))       // 123
-		log.Println(c.Query("v"))         // 1.0
-		log.Println(c.Cookies("session")) // ""
-
 		ticker := time.NewTicker(1 * time.Second)
 		defer ticker.Stop()
 
