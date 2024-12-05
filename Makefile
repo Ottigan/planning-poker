@@ -1,5 +1,5 @@
-build:
-	go build -o ./tmp/main -v
+build: css-minify
+	go build -o ./bin/app -v
 
 start:
 	air

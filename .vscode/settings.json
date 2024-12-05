@@ -1,5 +1,6 @@
 {
     "tailwindCSS.includeLanguages": {
         "templ": "html"
-    }
+    },
+    "cSpell.words": ["testdata", "tmpl"]
 }
