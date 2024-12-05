@@ -1,0 +1,7 @@
+{
+  "dependencies": {},
+  "devDependencies": {
+    "daisyui": "latest",
+    "postcss": "^8.4.49"
+  }
+}

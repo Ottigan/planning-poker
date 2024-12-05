@@ -8,6 +8,8 @@ package templates
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
+import "github.com/ottigan/planning-poker/templates/components"
+
 func Index() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -29,7 +31,15 @@ func Index() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Golang HTMX</title><script src=\"https://unpkg.com/htmx.org@1.9.8\"></script><link href=\"/css/output.css\" rel=\"stylesheet\"></head><body><div class=\"bg-red-900\" hx-ext=\"ws\" ws-connect=\"/ws\">Hi mom3!</div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Golang HTMX</title><script src=\"https://unpkg.com/htmx.org@1.9.12\"></script><script src=\"https://unpkg.com/htmx.org@1.9.12/dist/ext/ws.js\"></script><link href=\"/static/css/output.css\" rel=\"stylesheet\"></head><body hx-ext=\"ws\" ws-connect=\"/ws/poker\"><div id=\"server-time\" class=\"w-full text-xl mt-10 flex justify-center\"><span>Time: </span>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.Time("...").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

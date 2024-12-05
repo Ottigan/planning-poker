@@ -9,4 +9,10 @@ module.exports = {
             sans: ["Quicksand"],
         },
     },
+    plugins: [
+        require('daisyui'),
+    ],
+    daisyui: {
+        themes: ["dark"]
+    }
 };
