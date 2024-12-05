@@ -1,18 +1,17 @@
 package templates
 
-templ index() {
-<html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <title>Golang HTMX</title>
-    <script src="https://unpkg.com/htmx.org@1.9.8"></script>
-</head>
-
-<body>
-    <div hx-ext="ws" ws-connect="/ws">
-    </div>
-</body>
-
-</html>
+templ Index() {
+	<html lang="en">
+		<head>
+			<meta charset="utf-8"/>
+			<title>Golang HTMX</title>
+			<script src="https://unpkg.com/htmx.org@1.9.8"></script>
+			<link href="/css/output.css" rel="stylesheet"/>
+		</head>
+		<body>
+			<div class="bg-red-900" hx-ext="ws" ws-connect="/ws">
+				Hi mom3!
+			</div>
+		</body>
+	</html>
 }
