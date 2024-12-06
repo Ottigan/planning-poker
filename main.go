@@ -84,15 +84,19 @@ func main() {
 		user, ok := users[sessionID]
 
 		if !ok {
-			log.Println("User not found, creating new user")
 			sessionID = "session-" + time.Now().Format("20060102150405")
-			user := User{
-				ID:     sessionID,
-				Name:   sessionID,
-				Active: false,
-			}
 
-			users[sessionID] = user
+			if value, ok := users[sessionID]; ok {
+				log.Println("User already exists", value)
+			} else {
+				log.Println("User not found, creating new user")
+				user := User{
+					ID:     sessionID,
+					Name:   sessionID,
+					Active: false,
+				}
+				users[sessionID] = user
+			}
 
 			// Long cookie
 			c.Cookie(&fiber.Cookie{
