@@ -1,0 +1,47 @@
+package components
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func fib(n int) int {
+	if n <= 1 {
+		return n
+	}
+
+	return fib(n-1) + fib(n-2)
+}
+
+var fibs = [5]string{
+	strconv.Itoa(fib(2)),
+	strconv.Itoa(fib(3)),
+	strconv.Itoa(fib(4)),
+	strconv.Itoa(fib(5)),
+	strconv.Itoa(fib(6)),
+}
+
+templ Voter(vote int, isDisabled bool) {
+	<ul id="voter" class="flex max-w-[30rem] flex-wrap gap-4 mt-8">
+		for i:=1; i <= 10; i++ {
+			<li>
+				@VotingButton(fmt.Sprintf("/vote/%d", i), fmt.Sprintf("%d", i), vote == i, isDisabled)
+			</li>
+		}
+	</ul>
+}
+
+templ VotingButton(post string, value string, isSelected bool, isDisabled bool) {
+	<button
+		hx-post={ post }
+		hx-target="#voter"
+		hx-swap="outerHTML"
+		if isSelected || isDisabled {
+			disabled
+		}
+		class={ "btn h-20 w-20 btn-square btn-info btn-outline text-3xl", 
+        templ.KV("!btn-success", isSelected ) }
+	>
+		{ value }
+	</button>
+}

@@ -1,0 +1,27 @@
+package components
+
+import "github.com/ottigan/planning-poker/types"
+
+templ Result(stats types.Stats) {
+	if (stats == types.Stats{}) {
+		<div id="stats"></div>
+	} else {
+		<div id="stats" class="absolute top-44 flex flex-col justify-center items-center">
+			// min avg max
+			<div class="flex gap-10">
+				<div class="flex flex-col gap-2">
+					<div class="text-4xl">Min</div>
+					<div class="text-8xl">{ stats.Min }</div>
+				</div>
+				<div class="flex flex-col gap-2">
+					<div class="text-4xl">Avg</div>
+					<div class="text-8xl">{ stats.Avg }</div>
+				</div>
+				<div class="flex flex-col gap-2">
+					<div class="text-4xl">Max</div>
+					<div class="text-8xl">{ stats.Max }</div>
+				</div>
+			</div>
+		</div>
+	}
+}

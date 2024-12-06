@@ -1,5 +1,9 @@
 package components
 
 templ Time(time string) {
-	<span id="time">{ time }</span>
+	if time == "" {
+		<span id="time" class="loading loading-dots loading-lg -mb-7"></span>
+	} else {
+		<span id="time">{ time }</span>
+	}
 }

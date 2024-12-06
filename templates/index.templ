@@ -1,8 +1,18 @@
 package templates
 
-import "github.com/ottigan/planning-poker/templates/components"
+import (
+	"github.com/ottigan/planning-poker/templates/components"
+	"github.com/ottigan/planning-poker/types"
+)
 
-templ Index(isActive bool) {
+templ Admin() {
+	<div class="absolute top-0 left-0 p-6 flex gap-4">
+		<button hx-post="/show" hx-swap="none" class="btn btn-outline btn-success">Show</button>
+		<button hx-post="/reset" hx-swap="none" class="btn btn-outline btn-error">Reset</button>
+	</div>
+}
+
+templ Index(user types.User, votes int, isAdmin bool, showResult bool, stats types.Stats) {
 	<html lang="en">
 		<head>
 			<meta charset="utf-8"/>
@@ -11,13 +21,18 @@ templ Index(isActive bool) {
 			<script src="/static/js/ws.js"></script>
 			<link href="/static/css/output.css" rel="stylesheet"/>
 		</head>
-		<body hx-ext="ws" class="h-screen w-screen flex justify-center items-center" ws-connect="/ws/poker">
-			<div class="flex flex-col justify-center items-center">
-				<div id="server-time" class="w-full text-5xl mt-10 flex justify-center mb-20">
-					<span class="pr-4">Time:</span>
-					@components.Time("...")
+		<body hx-ext="ws" class="h-full w-screen flex flex-col justify-center items-center" ws-connect="/ws/poker">
+			if isAdmin {
+				@Admin()
+			}
+			@components.Result(stats)
+			<div class="flex flex-col gap-10 justify-center items-center">
+				<div id="server-time" class="w-full text-6xl my-10 flex justify-center">
+					<span class="pr-4">Time taken:</span>
+					@components.Time("")
 				</div>
-				@components.Seat(isActive)
+				@components.Votes(votes)
+				@components.Voter(user.Vote, showResult)
 			</div>
 		</body>
 	</html>
