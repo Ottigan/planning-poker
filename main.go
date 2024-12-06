@@ -79,7 +79,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		isAdmin := c.Query("admin") == "true"
+		isAdmin := c.Query("admin") == "true" || c.Cookies("admin") == "true"
 		sessionID := c.Cookies("session")
 		user, ok := users[sessionID]
 
@@ -100,6 +100,14 @@ func main() {
 				Value:  sessionID,
 				MaxAge: 60 * 60 * 24,
 			})
+
+			if isAdmin {
+				c.Cookie(&fiber.Cookie{
+					Name:   "admin",
+					Value:  "true",
+					MaxAge: 60 * 60 * 24,
+				})
+			}
 		}
 
 		stats := calculateMinAvgMax()
