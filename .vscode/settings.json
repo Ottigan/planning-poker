@@ -19,8 +19,12 @@
         {
             "splitTerminals": [
                 {
-                    "name": "static",
-                    "commands": ["make static-watch"]
+                    "name": "htmx",
+                    "commands": ["make htmx-watch"]
+                },
+                {
+                    "name": "css",
+                    "commands": ["make css-watch"]
                 }
             ]
         },

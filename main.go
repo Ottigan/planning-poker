@@ -43,10 +43,9 @@ func calculateMinAvgMax() types.Stats {
 		return types.Stats{}
 	}
 
-	log.Println("Calculating min, avg, max", len(votes))
-
 	for _, user := range users {
 		if user.Vote != 0 {
+			log.Println("Vote found", user.Vote)
 			votes = append(votes, float64(user.Vote))
 		}
 	}
@@ -193,6 +192,7 @@ func main() {
 	app.Post("/reset", func(c *fiber.Ctx) error {
 		log.Println("Resetting votes")
 		timerStart = time.Now()
+		ticker.Reset(100 * time.Millisecond)
 		showResult = false
 
 		for _, user := range users {

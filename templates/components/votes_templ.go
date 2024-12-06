@@ -31,7 +31,7 @@ func Votes(votes int) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"votes\" class=\"stats shadow-2xl\"><div class=\"stat place-items-center text-8xl\"><div class=\"stat-title\">Total Votes</div><div class=\"stat-value text-8xl text-primary\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"votes\" class=\"stats bg-slate-400 shadow-2xl\"><div class=\"stat place-items-center text-8xl\"><div class=\"stat-title\">Total Votes</div><div class=\"stat-value text-8xl text-primary\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

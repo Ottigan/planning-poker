@@ -7,8 +7,8 @@ build: install css-minify htmx
 htmx:
 	templ generate
 
-static-watch:
-	templ generate --watch --proxy="http://localhost:8080" --cmd="make css"
+htmx-watch:
+	templ generate --watch --proxy="http://localhost:8080"
 
 install:
 	bun install && go mod tidy
