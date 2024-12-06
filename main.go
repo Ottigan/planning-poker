@@ -86,15 +86,23 @@ func main() {
 		if !ok {
 			sessionID = "session-" + time.Now().Format("20060102150405")
 
-			if value, ok := users[sessionID]; ok {
-				log.Println("User already exists", value)
-			} else {
+			shouldCreate := true
+			for _, u := range users {
+				if u.ID == sessionID {
+					shouldCreate = false
+					break
+				}
+			}
+
+			if shouldCreate {
 				log.Println("User not found, creating new user")
 				user := User{
 					ID:     sessionID,
 					Name:   sessionID,
 					Active: false,
+					Vote:   0,
 				}
+
 				users[sessionID] = user
 			}
 
