@@ -85,26 +85,15 @@ func main() {
 
 		if !ok {
 			sessionID = "session-" + time.Now().Format("20060102150405")
-
-			shouldCreate := true
-			for _, u := range users {
-				if u.ID == sessionID {
-					shouldCreate = false
-					break
-				}
+			log.Println("User not found, creating new user")
+			user := User{
+				ID:     sessionID,
+				Name:   sessionID,
+				Active: false,
+				Vote:   0,
 			}
 
-			if shouldCreate {
-				log.Println("User not found, creating new user")
-				user := User{
-					ID:     sessionID,
-					Name:   sessionID,
-					Active: false,
-					Vote:   0,
-				}
-
-				users[sessionID] = user
-			}
+			users[sessionID] = user
 
 			// Long cookie
 			c.Cookie(&fiber.Cookie{
@@ -220,6 +209,14 @@ func main() {
 			user.Vote = 0
 			users[user.ID] = user
 		}
+
+		// remove duplicate users
+		uniqueUsers := make(map[string]User)
+		for _, user := range users {
+			uniqueUsers[user.ID] = user
+		}
+
+		users = uniqueUsers
 
 		for _, u := range users {
 			log.Println("Sending reset message")
