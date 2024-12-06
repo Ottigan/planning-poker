@@ -26,7 +26,7 @@ templ Index(user types.User, votes int, isAdmin bool, showResult bool, stats typ
 				@Admin()
 			}
 			@components.Result(stats)
-			<div class="flex flex-col gap-10 justify-center items-center">
+			<div class="absolute top-96 flex flex-col gap-10 justify-center items-center">
 				<div id="server-time" class="w-full text-6xl my-10 flex justify-center">
 					<span class="pr-4">Time taken:</span>
 					@components.Time("")

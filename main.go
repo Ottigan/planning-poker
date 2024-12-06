@@ -79,7 +79,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		isAdmin := c.Query("admin") == "true" || c.Cookies("admin") == "true"
+		isAdmin := c.Query("root") == "true" || c.Cookies("root") == "true"
 		sessionID := c.Cookies("session")
 		user, ok := users[sessionID]
 
@@ -103,7 +103,7 @@ func main() {
 
 			if isAdmin {
 				c.Cookie(&fiber.Cookie{
-					Name:   "admin",
+					Name:   "root",
 					Value:  "true",
 					MaxAge: 60 * 60 * 24,
 				})
@@ -204,6 +204,7 @@ func main() {
 		showResult = false
 
 		for _, user := range users {
+			log.Println("Resetting user", user)
 			user.Vote = 0
 			users[user.ID] = user
 		}
