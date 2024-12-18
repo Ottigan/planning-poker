@@ -1,8 +1,8 @@
 package templates
 
 import (
+	"github.com/ottigan/planning-poker/internal"
 	"github.com/ottigan/planning-poker/templates/components"
-	"github.com/ottigan/planning-poker/types"
 )
 
 templ Admin() {
@@ -12,7 +12,7 @@ templ Admin() {
 	</div>
 }
 
-templ Index(user types.User, votes int, isAdmin bool, showResult bool, stats types.Stats) {
+templ Index(user internal.User, votes int, isAdmin bool, showResult bool, stats internal.Stats) {
 	<html lang="en">
 		<head>
 			<meta charset="utf-8"/>
@@ -26,7 +26,7 @@ templ Index(user types.User, votes int, isAdmin bool, showResult bool, stats typ
 				@Admin()
 			}
 			@components.Result(stats)
-			<div class="flex flex-col gap-10 justify-center items-center">
+			<div class="absolute top-96 flex flex-col gap-10 justify-center items-center">
 				<div id="server-time" class="w-full text-6xl my-10 flex justify-center">
 					<span class="pr-4">Time taken:</span>
 					@components.Time("")

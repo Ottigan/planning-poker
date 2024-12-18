@@ -1,0 +1,10 @@
+<ul id=\"voter\" class=\"flex max-w-[30rem] flex-wrap gap-4 mt-8\">
+<li>
+</li>
+</ul>
+<button hx-post=\"
+\" hx-target=\"#voter\" hx-swap=\"outerHTML\"
+ disabled
+ class=\"
+\">
+</button>

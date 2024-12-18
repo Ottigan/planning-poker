@@ -1,25 +1,6 @@
 package components
 
-import (
-	"fmt"
-	"strconv"
-)
-
-func fib(n int) int {
-	if n <= 1 {
-		return n
-	}
-
-	return fib(n-1) + fib(n-2)
-}
-
-var fibs = [5]string{
-	strconv.Itoa(fib(2)),
-	strconv.Itoa(fib(3)),
-	strconv.Itoa(fib(4)),
-	strconv.Itoa(fib(5)),
-	strconv.Itoa(fib(6)),
-}
+import "fmt"
 
 templ Voter(vote int, isDisabled bool) {
 	<ul id="voter" class="flex max-w-[30rem] flex-wrap gap-4 mt-8">

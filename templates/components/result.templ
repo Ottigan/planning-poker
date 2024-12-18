@@ -1,13 +1,12 @@
 package components
 
-import "github.com/ottigan/planning-poker/types"
+import "github.com/ottigan/planning-poker/internal"
 
-templ Result(stats types.Stats) {
-	if (stats == types.Stats{}) {
+templ Result(stats internal.Stats) {
+	if (stats == internal.Stats{}) {
 		<div id="stats"></div>
 	} else {
 		<div id="stats" class="absolute top-44 flex flex-col justify-center items-center">
-			// min avg max
 			<div class="flex gap-10">
 				<div class="flex flex-col gap-2">
 					<div class="text-4xl">Min</div>

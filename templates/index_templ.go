@@ -9,8 +9,8 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
+	"github.com/ottigan/planning-poker/internal"
 	"github.com/ottigan/planning-poker/templates/components"
-	"github.com/ottigan/planning-poker/types"
 )
 
 func Admin() templ.Component {
@@ -34,7 +34,7 @@ func Admin() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"absolute top-0 left-0 p-6 flex gap-4\"><button hx-post=\"/show\" hx-swap=\"none\" class=\"btn btn-outline btn-success\">Show</button> <button hx-post=\"/reset\" hx-swap=\"none\" class=\"btn btn-outline btn-error\">Reset</button></div>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -42,7 +42,7 @@ func Admin() templ.Component {
 	})
 }
 
-func Index(user types.User, votes int, isAdmin bool, showResult bool, stats types.Stats) templ.Component {
+func Index(user internal.User, votes int, isAdmin bool, showResult bool, stats internal.Stats) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -63,7 +63,7 @@ func Index(user types.User, votes int, isAdmin bool, showResult bool, stats type
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Golang HTMX</title><script src=\"/static/js/htmx.js\"></script><script src=\"/static/js/ws.js\"></script><link href=\"/static/css/output.css\" rel=\"stylesheet\"></head><body hx-ext=\"ws\" class=\"h-full w-screen flex flex-col justify-center items-center\" ws-connect=\"/ws/poker\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -77,7 +77,7 @@ func Index(user types.User, votes int, isAdmin bool, showResult bool, stats type
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col gap-10 justify-center items-center\"><div id=\"server-time\" class=\"w-full text-6xl my-10 flex justify-center\"><span class=\"pr-4\">Time taken:</span>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -85,7 +85,7 @@ func Index(user types.User, votes int, isAdmin bool, showResult bool, stats type
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -97,7 +97,7 @@ func Index(user types.User, votes int, isAdmin bool, showResult bool, stats type
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body></html>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

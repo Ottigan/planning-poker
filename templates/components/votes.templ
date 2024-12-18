@@ -3,7 +3,7 @@ package components
 import "fmt"
 
 templ Votes(votes int) {
-	<div id="votes" class="stats shadow-2xl">
+	<div id="votes" class="stats bg-slate-800 border-[1px] border-gray-900 shadow-2xl">
 		<div class="stat place-items-center text-8xl">
 			<div class="stat-title">Total Votes</div>
 			<div class="stat-value text-8xl text-primary">{ fmt.Sprintf("%d", votes) }</div>

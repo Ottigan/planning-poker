@@ -1,23 +1,34 @@
-start:
-	air
-
-build: install css-minify htmx
-	go build -o ./bin/app -v
-
-htmx:
-	templ generate
-
-static-watch:
-	templ generate --watch --proxy="http://localhost:8080" --cmd="make css"
+TAILWIND_CSS_INPUT := static/css/input.css
+TAILWIND_CSS_OUTPUT := static/css/output.css
+HTMX_GENERATE_CMD := templ generate
+GO_BUILD_OUTPUT := bin/app
 
 install:
 	bun install && go mod tidy
 
+start:
+	@pkill -f "air" || true
+	air
+
+build: install css-minify htmx
+	@mkdir -p bin
+	go build -o $(GO_BUILD_OUTPUT) .
+
+htmx:
+	$(HTMX_GENERATE_CMD)
+
+htmx-watch:
+	$(HTMX_GENERATE_CMD) --watch --proxy=http://localhost:8080
+
 css:
-	./tailwindcss -i static/css/input.css -o static/css/output.css
+	./tailwindcss -i $(TAILWIND_CSS_INPUT) -o $(TAILWIND_CSS_OUTPUT)
 
 css-minify:
-	./tailwindcss -i static/css/input.css -o static/css/output.css --minify
+	./tailwindcss -i $(TAILWIND_CSS_INPUT) -o $(TAILWIND_CSS_OUTPUT) --minify
 
 css-watch:
-	./tailwindcss -i static/css/input.css -o static/css/output.css --watch
+	./tailwindcss -i $(TAILWIND_CSS_INPUT) -o $(TAILWIND_CSS_OUTPUT) --watch
+
+clean:
+	rm -rf bin
+	rm -rf dist
