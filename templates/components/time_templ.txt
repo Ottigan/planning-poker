@@ -1,3 +1,0 @@
-<span id=\"time\" class=\"loading loading-dots loading-lg -mb-7\"></span>
-<span id=\"time\">
-</span>

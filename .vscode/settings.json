@@ -2,7 +2,7 @@
     "tailwindCSS.includeLanguages": {
         "templ": "html"
     },
-    "cSpell.words": ["proxyport", "testdata", "tmpl"],
+    "cSpell.words": ["cosmtrek", "proxyport", "testdata", "tmpl"],
     "[templ]": {
         "editor.defaultFormatter": "a-h.templ"
     },
@@ -11,20 +11,8 @@
         {
             "splitTerminals": [
                 {
-                    "name": "air",
-                    "commands": ["make install", "make start"]
-                }
-            ]
-        },
-        {
-            "splitTerminals": [
-                {
-                    "name": "htmx",
-                    "commands": ["make htmx-watch"]
-                },
-                {
-                    "name": "css",
-                    "commands": ["make css-watch"]
+                    "name": "dev",
+                    "commands": ["make dev"]
                 }
             ]
         },

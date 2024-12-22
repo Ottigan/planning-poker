@@ -2,114 +2,132 @@ package internal
 
 import (
 	"log"
-	"strconv"
 	"sync"
-	"time"
 
 	"github.com/gofiber/contrib/websocket"
 )
 
 type User struct {
-	ID         string
+	Id         string
 	Name       string
 	Vote       int
 	Connection *websocket.Conn
 }
 
 type Manager struct {
-	users map[string]User
-	mu    sync.Mutex
+	users sync.Map
 }
 
 func CreateUserManager() *Manager {
-	return &Manager{
-		users: make(map[string]User),
+	return &Manager{}
+}
+
+func (m *Manager) New(user User) User {
+	log.Printf("Creating new user with ID: %s", user.Id)
+	m.users.Store(user.Id, user)
+
+	return user
+}
+
+func (m *Manager) Get(id string) (User, bool) {
+	log.Printf("Retrieving user with ID: %s", id)
+	value, ok := m.users.Load(id)
+
+	if !ok {
+		m.notFound(id)
+		return User{}, false
 	}
+
+	user := value.(User)
+	return user, true
 }
 
-func (u *Manager) New() string {
-	u.mu.Lock()
-	defer u.mu.Unlock()
+func (m *Manager) GetAll() map[string]User {
+	log.Printf("Retrieving all users")
+	users := make(map[string]User)
 
-	id := strconv.FormatInt(time.Now().UnixNano(), 10)
-	log.Printf("Creating new user with ID: %s", id)
-	u.users[id] = User{
-		ID:   id,
-		Name: "",
-		Vote: 0,
+	m.users.Range(func(key, value interface{}) bool {
+		users[key.(string)] = value.(User)
+		return true
+	})
+
+	return users
+}
+
+func (m *Manager) SetConnection(id string, conn *websocket.Conn) (User, bool) {
+	log.Printf("Setting connection for user with ID: %s", id)
+	value, ok := m.users.Load(id)
+
+	if !ok {
+		m.notFound(id)
+		return User{}, false
 	}
 
-	return id
-}
-
-func (u *Manager) Get(id string) (User, bool) {
-	u.mu.Lock()
-	defer u.mu.Unlock()
-
-	user, ok := u.users[id]
-	return user, ok
-}
-
-func (u *Manager) GetAll() map[string]User {
-	u.mu.Lock()
-	defer u.mu.Unlock()
-
-	return u.users
-}
-
-func (u *Manager) SetConnection(id string, conn *websocket.Conn) {
-	u.mu.Lock()
-	defer u.mu.Unlock()
-
-	user := u.users[id]
+	user := value.(User)
 	user.Connection = conn
-	u.users[id] = user
+	m.users.Store(id, user)
+
+	return user, true
 }
 
-func (u *Manager) RemoveConnection(id string) {
-	u.mu.Lock()
-	defer u.mu.Unlock()
+func (m *Manager) RemoveConnection(id string) (User, bool) {
+	log.Printf("Removing connection for user with ID %s", id)
+	value, ok := m.users.Load(id)
 
-	user := u.users[id]
-	user.Connection.Close()
-	user.Connection = nil
-}
-
-func (u *Manager) SetVote(id string, vote int) {
-	u.mu.Lock()
-	defer u.mu.Unlock()
-
-	user := u.users[id]
-	user.Vote = vote
-	u.users[id] = user
-}
-
-func (u *Manager) ResetVotes() {
-	u.mu.Lock()
-	defer u.mu.Unlock()
-
-	for id, user := range u.users {
-		user.Vote = 0
-		u.users[id] = user
+	if !ok {
+		m.notFound(id)
+		return User{}, false
 	}
+
+	user := value.(User)
+	user.Connection = nil
+	m.users.Store(id, user)
+
+	return user, true
 }
 
-func (u *Manager) Remove(id string) {
-	u.mu.Lock()
-	defer u.mu.Unlock()
+func (m *Manager) SetVote(id string, vote int) (User, bool) {
+	log.Printf("Setting vote %d for user with ID: %s", vote, id)
+	value, ok := m.users.Load(id)
 
-	delete(u.users, id)
+	if !ok {
+		m.notFound(id)
+		return User{}, false
+	}
+
+	user := value.(User)
+	user.Vote = vote
+	m.users.Store(id, user)
+
+	return user, true
 }
 
-func (u *Manager) Broadcast(message []byte) {
-	u.mu.Lock()
-	defer u.mu.Unlock()
+func (m *Manager) ResetVotes() {
+	log.Printf("Resetting votes")
+	m.users.Range(func(key, value interface{}) bool {
+		user := value.(User)
+		user.Vote = 0
+		m.users.Store(key.(string), user)
+		return true
+	})
+}
 
-	for _, user := range u.users {
+func (m *Manager) Broadcast(message []byte) {
+	log.Printf("Broadcasting message to all users")
+
+	m.users.Range(func(key, value interface{}) bool {
+		user := value.(User)
+
 		if user.Connection != nil {
 			if err := user.Connection.WriteMessage(websocket.TextMessage, message); err != nil {
-				log.Printf("Failed to write message to user %s: %v", user.ID, err)
+				log.Printf("Failed to write message to user %s: %v", user.Id, err)
 			}
 		}
-	}
+
+		return true
+	})
+}
+
+func (m *Manager) notFound(id string) {
+	log.Printf("User not found for ID: %s", id)
 }
