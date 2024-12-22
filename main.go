@@ -89,10 +89,22 @@ func main() {
 		return fiber.ErrUpgradeRequired
 	})
 
+	app.Post("/name", func(c *fiber.Ctx) error {
+		sessionID := c.Cookies("session")
+		name := c.FormValue("name")
+
+		if _, ok := um.Update(sessionID, internal.WithName(name)); !ok {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		c.WriteString(name)
+		return c.SendStatus(fiber.StatusOK)
+	})
+
 	app.Post("/vote/:n", func(c *fiber.Ctx) error {
 		sessionID := c.Cookies("session")
 		vote, _ := strconv.Atoi(c.Params("n"))
-		um.SetVote(sessionID, vote)
+		um.Update(sessionID, internal.WithVote(vote))
 		buffer := &bytes.Buffer{}
 		votedUsers := internal.GetVotedUsers(um)
 		components.Votes(votedUsers).Render(context.Background(), buffer)
@@ -135,19 +147,14 @@ func main() {
 	app.Get("/ws/poker", websocket.New(func(c *websocket.Conn) {
 		sessionID := c.Cookies("session")
 
-		if sessionID == "" {
+		if _, ok := um.Update(sessionID, internal.WithConnection(c)); !ok {
 			return
-		}
-
-		if _, ok := um.Get(sessionID); !ok {
-			user := um.New(internal.User{Id: sessionID, Connection: c})
-			sendUserState(um, user)
 		}
 
 		for {
 			if _, _, err := c.ReadMessage(); err != nil {
 				log.Printf("Websocket connection closed for user %s: %v", sessionID, err)
-				um.RemoveConnection(sessionID)
+				um.Update(sessionID, internal.WithConnection(nil))
 				return
 			}
 		}

@@ -19,12 +19,16 @@ templ Index(user internal.User, votes int, isAdmin bool, showResult bool, stats 
 			<title>Golang HTMX</title>
 			<script src="/static/js/htmx.js"></script>
 			<script src="/static/js/ws.js"></script>
+			<script>
+                document.addEventListener('htmx:wsClose', () => window.location.reload());
+            </script>
 			<link href="/static/css/output.css" rel="stylesheet"/>
 		</head>
 		<body hx-ext="ws" class="h-full w-screen flex flex-col justify-center items-center" ws-connect="/ws/poker">
 			if isAdmin {
 				@Admin()
 			}
+			@components.NameProvider()
 			@components.Result(stats)
 			<div class="absolute top-96 flex flex-col gap-10 justify-center items-center">
 				<div id="server-time" class="w-full text-6xl my-10 flex justify-center">

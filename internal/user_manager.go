@@ -14,6 +14,26 @@ type User struct {
 	Connection *websocket.Conn
 }
 
+type Option func(*User)
+
+func WithName(name string) Option {
+	return func(u *User) {
+		u.Name = name
+	}
+}
+
+func WithVote(vote int) Option {
+	return func(u *User) {
+		u.Vote = vote
+	}
+}
+
+func WithConnection(conn *websocket.Conn) Option {
+	return func(u *User) {
+		u.Connection = conn
+	}
+}
+
 type Manager struct {
 	users sync.Map
 }
@@ -54,49 +74,18 @@ func (m *Manager) GetAll() map[string]User {
 	return users
 }
 
-func (m *Manager) SetConnection(id string, conn *websocket.Conn) (User, bool) {
-	log.Printf("Setting connection for user with ID: %s", id)
-	value, ok := m.users.Load(id)
+func (m *Manager) Update(id string, options ...Option) (User, bool) {
+	user, ok := m.Get(id)
 
 	if !ok {
 		m.notFound(id)
 		return User{}, false
 	}
 
-	user := value.(User)
-	user.Connection = conn
-	m.users.Store(id, user)
-
-	return user, true
-}
-
-func (m *Manager) RemoveConnection(id string) (User, bool) {
-	log.Printf("Removing connection for user with ID %s", id)
-	value, ok := m.users.Load(id)
-
-	if !ok {
-		m.notFound(id)
-		return User{}, false
+	for _, option := range options {
+		option(&user)
 	}
 
-	user := value.(User)
-	user.Connection = nil
-	m.users.Store(id, user)
-
-	return user, true
-}
-
-func (m *Manager) SetVote(id string, vote int) (User, bool) {
-	log.Printf("Setting vote %d for user with ID: %s", vote, id)
-	value, ok := m.users.Load(id)
-
-	if !ok {
-		m.notFound(id)
-		return User{}, false
-	}
-
-	user := value.(User)
-	user.Vote = vote
 	m.users.Store(id, user)
 
 	return user, true
@@ -113,10 +102,11 @@ func (m *Manager) ResetVotes() {
 }
 
 func (m *Manager) Broadcast(message []byte) {
-	log.Printf("Broadcasting message to all users")
 
 	m.users.Range(func(key, value interface{}) bool {
 		user := value.(User)
+
+		log.Printf("Broadcasting message to user %v", user)
 
 		if user.Connection != nil {
 			if err := user.Connection.WriteMessage(websocket.TextMessage, message); err != nil {

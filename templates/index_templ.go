@@ -63,7 +63,7 @@ func Index(user internal.User, votes int, isAdmin bool, showResult bool, stats i
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Golang HTMX</title><script src=\"/static/js/htmx.js\"></script><script src=\"/static/js/ws.js\"></script><link href=\"/static/css/output.css\" rel=\"stylesheet\"></head><body hx-ext=\"ws\" class=\"h-full w-screen flex flex-col justify-center items-center\" ws-connect=\"/ws/poker\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Golang HTMX</title><script src=\"/static/js/htmx.js\"></script><script src=\"/static/js/ws.js\"></script><script>\n                document.addEventListener('htmx:wsClose', () => window.location.reload());\n            </script><link href=\"/static/css/output.css\" rel=\"stylesheet\"></head><body hx-ext=\"ws\" class=\"h-full w-screen flex flex-col justify-center items-center\" ws-connect=\"/ws/poker\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -72,6 +72,10 @@ func Index(user internal.User, votes int, isAdmin bool, showResult bool, stats i
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+		}
+		templ_7745c5c3_Err = components.NameProvider().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = components.Result(stats).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {

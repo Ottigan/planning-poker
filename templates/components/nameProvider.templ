@@ -1,0 +1,10 @@
+package components
+
+templ NameProvider() {
+	<div id="nameProvider" class="absolute top-0 left-0 right-0 flex justify-center items-center">
+		<form hx-boost="true" hx-post="/name" hx-trigger="submit" class="flex gap-4">
+			<input type="text" name="name" class="p-2 border border-gray-300 rounded" placeholder="Enter your name..."/>
+			<button type="submit" class="p-2 bg-blue-500 text-white rounded">Submit</button>
+		</form>
+	</div>
+}

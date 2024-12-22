@@ -7,7 +7,7 @@ GO_BUILD_OUTPUT := bin/app
 # re-create _templ.txt files on change, then send reload event to browser. 
 # Default url: http://localhost:7331
 dev/templ:
-	$(HTMX_GENERATE_CMD) --watch --proxy="http://localhost:8080" --open-browser=false -v
+	$(HTMX_GENERATE_CMD) --watch --proxy="http://localhost:8080" --open-browser=true
 
 # run air to detect any go file changes to re-build and re-run the server.
 dev/server:
