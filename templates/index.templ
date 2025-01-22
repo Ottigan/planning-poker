@@ -28,7 +28,7 @@ templ Index(user internal.User, votes int, isAdmin bool, showResult bool, stats 
 			if isAdmin {
 				@Admin()
 			}
-			@components.NameProvider()
+			@components.NameProvider(user.Name)
 			@components.Result(stats)
 			<div class="absolute top-96 flex flex-col gap-10 justify-center items-center">
 				<div id="server-time" class="w-full text-6xl my-10 flex justify-center">

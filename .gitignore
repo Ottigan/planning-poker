@@ -4,3 +4,4 @@ bin
 output.css
 *_templ.txt
 *_templ.go
+.DS_Store

@@ -1,7 +1,18 @@
-TAILWIND_CSS_INPUT := static/css/input.css
-TAILWIND_CSS_OUTPUT := static/css/output.css
-HTMX_GENERATE_CMD := templ generate
-GO_BUILD_OUTPUT := bin/app
+install:
+	bun install && go mod tidy
+
+dev: install 
+	make -j4 dev/templ dev/server dev/tailwind dev/sync_assets
+
+build: install tailwind htmx
+	@mkdir -p bin
+	go build -o $(GO_BUILD_OUTPUT) .
+
+tailwind:
+	./tailwindcss -i $(TAILWIND_CSS_INPUT) -o $(TAILWIND_CSS_OUTPUT) --minify
+
+htmx:
+	$(HTMX_GENERATE_CMD)
 
 # run templ generation in watch mode to detect all .templ files and 
 # re-create _templ.txt files on change, then send reload event to browser. 
@@ -29,22 +40,10 @@ dev/sync_assets:
 	--build.bin "true" \
 	--build.delay "100" \
 	--build.exclude_dir "" \
-	--build.include_dir "static" \
+	--build.include_dir "static" \kkkkkkkkkkkkkkkkkkkk
 	--build.include_ext "js,css"
 
-# start all 4 watch processes in parallel.
-dev: install 
-	make -j4 dev/templ dev/server dev/tailwind dev/sync_assets
-
-install:
-	bun install && go mod tidy
-
-build: install tailwind htmx
-	@mkdir -p bin
-	go build -o $(GO_BUILD_OUTPUT) .
-
-tailwind:
-	./tailwindcss -i $(TAILWIND_CSS_INPUT) -o $(TAILWIND_CSS_OUTPUT) --minify
-
-htmx:
-	$(HTMX_GENERATE_CMD)
+TAILWIND_CSS_INPUT := static/css/input.css
+TAILWIND_CSS_OUTPUT := static/css/output.css
+HTMX_GENERATE_CMD := templ generate
+GO_BUILD_OUTPUT := bin/app

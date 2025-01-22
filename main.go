@@ -19,8 +19,8 @@ import (
 
 const tickerInterval = 1000 * time.Millisecond
 
-var timerStart = time.Now()
 var ticker = time.NewTicker(tickerInterval)
+var timerStart = time.Now()
 var showResult = false
 
 func broadcastTicker(um *internal.Manager) {

@@ -1,28 +1,28 @@
 {
-    "tailwindCSS.includeLanguages": {
-        "templ": "html"
-    },
-    "cSpell.words": ["cosmtrek", "proxyport", "testdata", "tmpl"],
     "[templ]": {
         "editor.defaultFormatter": "a-h.templ"
     },
+    "cSpell.words": ["cosmtrek", "proxyport", "testdata", "tmpl"],
     "restoreTerminals.runOnStartup": true,
     "restoreTerminals.terminals": [
         {
             "splitTerminals": [
                 {
-                    "name": "dev",
-                    "commands": ["make dev"]
+                    "commands": ["make dev"],
+                    "name": "dev"
                 }
             ]
         },
         {
             "splitTerminals": [
                 {
-                    "name": "git",
-                    "commands": []
+                    "commands": [],
+                    "name": "git"
                 }
             ]
         }
-    ]
+    ],
+    "tailwindCSS.includeLanguages": {
+        "templ": "html"
+    }
 }
