@@ -66,7 +66,7 @@ func (m *Manager) GetAll() map[string]User {
 	log.Printf("Retrieving all users")
 	users := make(map[string]User)
 
-	m.users.Range(func(key, value interface{}) bool {
+	m.users.Range(func(key, value any) bool {
 		users[key.(string)] = value.(User)
 		return true
 	})
@@ -93,7 +93,7 @@ func (m *Manager) Update(id string, options ...Option) (User, bool) {
 
 func (m *Manager) ResetVotes() {
 	log.Printf("Resetting votes")
-	m.users.Range(func(key, value interface{}) bool {
+	m.users.Range(func(key, value any) bool {
 		user := value.(User)
 		user.Vote = 0
 		m.users.Store(key.(string), user)
@@ -103,7 +103,7 @@ func (m *Manager) ResetVotes() {
 
 func (m *Manager) Broadcast(message []byte) {
 
-	m.users.Range(func(key, value interface{}) bool {
+	m.users.Range(func(key, value any) bool {
 		user := value.(User)
 
 		log.Printf("Broadcasting message to user %v", user)

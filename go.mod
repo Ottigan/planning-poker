@@ -1,9 +1,9 @@
 module github.com/ottigan/planning-poker
 
-go 1.22
+go 1.24
 
 require (
-	github.com/a-h/templ v0.2.793
+	github.com/a-h/templ v0.3.1001
 	github.com/gofiber/contrib/websocket v1.3.2
 	github.com/gofiber/fiber/v2 v2.52.5
 )
@@ -21,6 +21,6 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.58.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/net v0.33.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/net v0.42.0 // indirect
+	golang.org/x/sys v0.34.0 // indirect
 )

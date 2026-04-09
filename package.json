@@ -2,7 +2,9 @@
     "license": "MIT",
     "dependencies": {},
     "devDependencies": {
-        "daisyui": "latest",
-        "postcss": "^8.4.49"
+        "@tailwindcss/cli": "^4.2.2",
+        "daisyui": "^5.5.19",
+        "postcss": "^8.4.49",
+        "tailwindcss": "^4.2.2"
     }
 }
