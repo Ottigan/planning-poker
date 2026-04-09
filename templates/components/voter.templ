@@ -3,7 +3,7 @@ package components
 import "fmt"
 
 templ Voter(vote int, isDisabled bool) {
-	<ul id="voter" class="flex max-w-[30rem] flex-wrap gap-4 mt-8">
+	<ul id="voter" class="flex max-w-120 flex-wrap gap-4 mt-8">
 		for i:=1; i <= 10; i++ {
 			<li>
 				@VotingButton(fmt.Sprintf("/vote/%d", i), fmt.Sprintf("%d", i), vote == i, isDisabled)
@@ -21,7 +21,7 @@ templ VotingButton(post string, value string, isSelected bool, isDisabled bool) 
 			disabled
 		}
 		class={ "btn h-20 w-20 btn-square btn-info btn-outline text-3xl", 
-        templ.KV("!btn-success", isSelected ) }
+        templ.KV("btn-success!", isSelected ) }
 	>
 		{ value }
 	</button>

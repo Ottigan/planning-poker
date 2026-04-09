@@ -1,3 +1,4 @@
+// Package internal provides the user management functionality for the application, including creating, retrieving, updating users, resetting votes, and broadcasting messages to all users.
 package internal
 
 import (
@@ -8,7 +9,7 @@ import (
 )
 
 type User struct {
-	Id         string
+	ID         string
 	Name       string
 	Vote       int
 	Connection *websocket.Conn
@@ -43,8 +44,8 @@ func CreateUserManager() *Manager {
 }
 
 func (m *Manager) New(user User) User {
-	log.Printf("Creating new user with ID: %s", user.Id)
-	m.users.Store(user.Id, user)
+	log.Printf("Creating new user with ID: %s", user.ID)
+	m.users.Store(user.ID, user)
 
 	return user
 }
@@ -102,7 +103,6 @@ func (m *Manager) ResetVotes() {
 }
 
 func (m *Manager) Broadcast(message []byte) {
-
 	m.users.Range(func(key, value any) bool {
 		user := value.(User)
 
@@ -110,7 +110,7 @@ func (m *Manager) Broadcast(message []byte) {
 
 		if user.Connection != nil {
 			if err := user.Connection.WriteMessage(websocket.TextMessage, message); err != nil {
-				log.Printf("Failed to write message to user %s: %v", user.Id, err)
+				log.Printf("Failed to write message to user %s: %v", user.ID, err)
 			}
 		}
 

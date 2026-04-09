@@ -19,9 +19,11 @@ import (
 
 const tickerInterval = 1000 * time.Millisecond
 
-var ticker = time.NewTicker(tickerInterval)
-var timerStart = time.Now()
-var showResult = false
+var (
+	ticker     = time.NewTicker(tickerInterval)
+	timerStart = time.Now()
+	showResult = false
+)
 
 func broadcastTicker(um *internal.Manager) {
 	for range ticker.C {
@@ -41,7 +43,7 @@ func sendUserState(um *internal.Manager, user internal.User) {
 
 	if user.Connection != nil {
 		if err := user.Connection.WriteMessage(websocket.TextMessage, buffer.Bytes()); err != nil {
-			log.Printf("Failed to write message to user %s: %v", user.Id, err)
+			log.Printf("Failed to write message to user %s: %v", user.ID, err)
 		}
 	}
 }
@@ -57,7 +59,7 @@ func main() {
 		user, ok := um.Get(sessionID)
 
 		if !ok {
-			user = um.New(internal.User{Id: sessionID})
+			user = um.New(internal.User{ID: sessionID})
 		}
 
 		c.Cookie(&fiber.Cookie{
