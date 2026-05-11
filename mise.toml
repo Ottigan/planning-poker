@@ -1,0 +1,63 @@
+[env]
+TAILWIND_CSS_INPUT = "static/css/input.css"
+TAILWIND_CSS_OUTPUT = "static/css/output.css"
+GO_BUILD_OUTPUT = "bin/app"
+
+[tasks.install]
+description = "Install dependencies"
+run = '''
+  bun install
+  go mod download
+'''
+
+[tasks.build]
+description = "Build the application"
+depends = ["templ", "tailwind"]
+run = '''
+  mkdir -p bin
+  go build -o $GO_BUILD_OUTPUT .
+'''
+
+[tasks.test]
+description = "Run tests"
+run = "go test ./..."
+
+[tasks.clean]
+description = "Clean build artifacts and dependencies"
+run = '''
+  rm -rf node_modules tmp bin
+  rm -f $TAILWIND_CSS_OUTPUT
+'''
+
+[tasks.dev]
+description = "Start development environment with live reloading"
+run = [{ tasks = ["templ-watch", "tailwind-watch", "server-watch"] }]
+
+[tasks.templ]
+hide = true
+run = "templ generate"
+
+[tasks.tailwind]
+hide = true
+run = "bunx @tailwindcss/cli -i $TAILWIND_CSS_INPUT -o $TAILWIND_CSS_OUTPUT --minify"
+
+[tasks.templ-watch]
+hide = true
+run = 'templ generate --watch --proxy="http://localhost:8080" --open-browser=true -v'
+
+[tasks.tailwind-watch]
+hide = true
+run = "bunx @tailwindcss/cli -i $TAILWIND_CSS_INPUT -o $TAILWIND_CSS_OUTPUT --watch"
+
+[tasks.server-watch]
+hide = true
+run = '''
+  go run github.com/air-verse/air@v1.63.0 \
+  --build.cmd "go build -o tmp/bin/main" \
+  --build.bin "tmp/bin/main" \
+  --build.delay "100" \
+  --build.exclude_dir "node_modules" \
+  --build.include_ext "go" \
+  --build.stop_on_error "false" \
+  --misc.clean_on_exit true
+'''
